@@ -19,23 +19,24 @@
     "build": "tsc && vite build",
     "lint": "eslint . --fix",
     "test": "vitest --run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:watch": "vitest"
   },
   "devDependencies": {
+    "@edge-runtime/vm": "^3.2.0",
     "@types/node": "^20.14.2",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@vitest/browser": "^1.6.0",
     "@vitest/coverage-v8": "^1.6.0",
     "camelcase": "^8.0.0",
     "eslint": "^8.56.0",
     "typescript": "^5.4.5",
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.0",
+    "webdriverio": "^8.39.0"
   },
   "lint-staged": {
     "*.ts": "pnpm run lint"
   },
-  "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.13.1"
-  }
+  "dependencies": {}
 }
