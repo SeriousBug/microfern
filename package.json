@@ -19,8 +19,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --fix",
     "test": "vitest --run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^3.2.0",

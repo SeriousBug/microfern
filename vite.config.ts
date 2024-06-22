@@ -35,6 +35,16 @@ function getEnvironmentConfig(): VitestEnvironment | undefined {
   }
 }
 
+function getCoverageConfig() {
+  if (process.env.TEST_RUNTIME === "node") {
+    return {
+      provider: "v8",
+    } as const;
+  }
+
+  return undefined;
+}
+
 export default defineConfig({
   build: {
     lib: {
@@ -48,5 +58,6 @@ export default defineConfig({
   test: {
     browser: getBrowserConfig(),
     environment: getEnvironmentConfig(),
+    coverage: getCoverageConfig(),
   },
 });
