@@ -21,6 +21,25 @@ describe("GIVEN a text with a symbol", () => {
         "I like cantaloupe in my fruit salad."
       );
     });
+
+    describe("AND there is no whitespace around the symbol", () => {
+      const template = "I like {{fruit}} in my fruit salad.";
+      test("THEN the symbol is replaced with the variable", () => {
+        expect(format(template, variables)).toBe(
+          "I like cantaloupe in my fruit salad."
+        );
+      });
+    });
+
+    describe("AND there is a special character in the symbol name", () => {
+      const template = "I like {{ fruit-1 }} in my fruit salad.";
+      const variables = { "fruit-1": "cantaloupe" };
+      test("THEN the symbol is replaced with the variable", () => {
+        expect(format(template, variables)).toBe(
+          "I like cantaloupe in my fruit salad."
+        );
+      });
+    });
   });
 
   describe("WHEN the variable does NOT match the symbol", () => {
@@ -92,9 +111,24 @@ describe("GIVEN a text with multiple symbols", () => {
       );
     });
   });
+
+  describe("WHEN there are multiple nested symbols", () => {
+    const template = "I like {{ fruit {{ dessert }} }} a lot.";
+    const variables = { fruit: "cantaloupe", dessert: "cake" };
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, variables)).toThrow("Invalid template");
+    });
+  });
 });
 
 describe("GIVEN a text with one or more comment blocks", () => {
+  describe("WHEN the template has no text besides the comment block", () => {
+    const template = "{# Remember to find more fruits! #}";
+    test("THEN the comment block is removed from the output", () => {
+      expect(format(template, {})).toBe("");
+    });
+  });
+
   describe("WHEN the template includes a single comment block", () => {
     const template =
       "I like {{ fruit }}{# Remember to find more fruits! #} in my fruit salad.";
@@ -141,5 +175,35 @@ describe("GIVEN a text with an escaped symbol", () => {
   const variables = { fruits: "cantaloupe" };
   test("THEN the symbol is not replaced", () => {
     expect(format(template, variables)).toBe("I like {{ fruits.");
+  });
+});
+
+describe("GIVEN a text with unmatched brackets", () => {
+  describe("WHEN there is an unmatched opening curly bracket", () => {
+    const template = "I like { fruit }} in my fruit salad.";
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, {})).toThrow("Invalid template");
+    });
+  });
+
+  describe("WHEN there is an unmatched closing curly bracket", () => {
+    const template = "I like {{ fruit } in my fruit salad.";
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, {})).toThrow("Invalid template");
+    });
+  });
+
+  describe("WHEN there is an unmatched opening comment bracket", () => {
+    const template = "I like {{ fruit }} in my fruit salad. {# Comment here";
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, {})).toThrow("Invalid template");
+    });
+  });
+
+  describe("WHEN there is an unmatched closing comment bracket", () => {
+    const template = "I like {{ fruit }} in my fruit salad. #} Comment here";
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, {})).toThrow("Invalid template");
+    });
   });
 });
