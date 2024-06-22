@@ -215,7 +215,7 @@ describe("GIVEN a text with an escaped symbol", () => {
   });
 
   describe("AND the escape character is inside a block", () => {
-    const template = "I like {{ \\{ fruits }}.";
+    const template = "I like {{ fruits \\{{ }}.";
     test("THEN an error is thrown", () => {
       expect(() => format(template, variables)).toThrow("Invalid template");
     });
