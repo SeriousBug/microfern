@@ -6,6 +6,10 @@
     ".": {
       "import": "./dist/microfern.js",
       "require": "./dist/microfern.cjs"
+    },
+    "./parse-variables-used": {
+      "import": "./dist/parse-variables-used.js",
+      "require": "./dist/parse-variables-used.cjs"
     }
   },
   "main": "./dist/microfern.cjs",
@@ -23,13 +27,13 @@
   },
   "devDependencies": {
     "@edge-runtime/vm": "^3.2.0",
-    "@types/node": "^20.14.2",
+    "@types/node": "^20.14.8",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@vitest/browser": "^1.6.0",
     "@vitest/coverage-v8": "^1.6.0",
     "camelcase": "^8.0.0",
     "eslint": "^8.56.0",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.2",
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
     "vitest": "^1.6.0",
