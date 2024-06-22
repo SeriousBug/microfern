@@ -116,4 +116,30 @@ describe("GIVEN a text with one or more comment blocks", () => {
       );
     });
   });
+
+  describe("WHEN there are nested comment blocks", () => {
+    const template =
+      "I like {{ fruit }}{# Oh, {# Really? #}#} Hmm #} in my fruit salad.";
+    const variables = { fruit: "cantaloupe" };
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, variables)).toThrow("Invalid template");
+    });
+  });
+
+  describe("WHEN there is an unclosed comment block", () => {
+    const template =
+      "I like {{ fruit }}{# Remember to find more fruits! in my fruit salad.";
+    const variables = { fruit: "cantaloupe" };
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, variables)).toThrow("Invalid template");
+    });
+  });
+});
+
+describe("GIVEN a text with an escaped symbol", () => {
+  const template = "I like \\{{ fruits.";
+  const variables = { fruits: "cantaloupe" };
+  test("THEN the symbol is not replaced", () => {
+    expect(format(template, variables)).toBe("I like {{ fruits.");
+  });
 });

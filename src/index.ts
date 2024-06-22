@@ -12,12 +12,28 @@ export function format(
       ? (name: string) => variables.get(name)
       : (name: string) => variables[name];
 
-  let state: "comment" | "block" | "text" = "text";
+  let state: "comment" | "block" | "text" | "escape" = "text";
 
-  template.split(/(?=[{][{]|[{]#|[}][}]|#[}])/).forEach((part) => {
+  template.split(/(?=\\|[{][{]|[{]#|[}][}]|#[}])/).forEach((part) => {
     // This is a basic state machine to parse the template and process it.
+
+    if (state === "escape") {
+      output.push(part);
+      state = "text";
+      return;
+    }
+
     const symbol = part.slice(0, 2);
+
     switch (symbol) {
+      case "\\":
+        if (state === "block" || state === "comment") {
+          throw new Error(
+            "Invalid template: unexpected \\, you can not escape inside a {{ }} template or comment blocks"
+          );
+        }
+        state = "escape";
+        return;
       case "{#":
         if (state !== "text") {
           throw new Error("Invalid template: unexpected {#");
@@ -66,6 +82,10 @@ export function format(
         break;
     }
   });
+
+  if (state !== "text") {
+    throw new Error("Invalid template: unclosed comment or block");
+  }
 
   return output.join("");
 }
