@@ -47,10 +47,14 @@ if (testRuntime === "firefox") {
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
-      formats: ["es", "cjs", "umd", "iife"],
-      name: camelCase(packageName, { pascalCase: true }),
-      fileName: packageName,
+      entry: {
+        [packageName]: resolve(__dirname, "src/index.ts"),
+        ["parse-variables-used"]: resolve(
+          __dirname,
+          "src/parse-variables-used.ts"
+        ),
+      },
+      formats: ["es", "cjs"],
     },
   },
   plugins: [dts({ rollupTypes: true })],

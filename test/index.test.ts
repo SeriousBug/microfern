@@ -31,6 +31,17 @@ describe("GIVEN a text with a symbol", () => {
       });
     });
 
+    describe("AND the variables are in a custom map implementation", () => {
+      test("THEN the symbol is replaced with the variable", () => {
+        class MyCustomMap {
+          get(key: string) {
+            return key.toUpperCase();
+          }
+        }
+        expect(format("{{ fruit }}", new MyCustomMap())).toBe("FRUIT");
+      });
+    });
+
     describe("AND there is no whitespace around the symbol", () => {
       const template = "I like {{fruit}} in my fruit salad.";
       test("THEN the symbol is replaced with the variable", () => {
