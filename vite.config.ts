@@ -1,10 +1,10 @@
 /// <reference types="vitest" />
 import { resolve } from "node:path";
-import { defineConfig } from "vite";
+import { UserConfig, defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import camelCase from "camelcase";
 import packageJson from "./package.json";
-import { BrowserConfigOptions, VitestEnvironment } from "vitest";
+import { BrowserConfigOptions, InlineConfig, VitestEnvironment } from "vitest";
 
 const packageName = packageJson.name.split("/").pop() || packageJson.name;
 
@@ -14,16 +14,20 @@ console.log("testRuntime", testRuntime);
 function getBrowserConfig(): BrowserConfigOptions | undefined {
   if (testRuntime === "chrome") {
     return {
+      provider: "webdriverio",
       name: "chrome",
-      headless: true,
+      enabled: true,
     };
   }
   if (testRuntime === "firefox") {
     return {
+      provider: "webdriverio",
       name: "firefox",
-      headless: true,
+      enabled: true,
     };
   }
+
+  return undefined;
 }
 
 function getEnvironmentConfig(): VitestEnvironment | undefined {
@@ -45,6 +49,36 @@ function getCoverageConfig() {
   return {};
 }
 
+let testConfig: InlineConfig = {};
+if (testRuntime === "node") {
+  testConfig = {
+    environment: "node",
+  };
+}
+if (testRuntime === "edge") {
+  testConfig = {
+    environment: "edge-runtime",
+  };
+}
+if (testRuntime === "chrome") {
+  testConfig = {
+    browser: {
+      provider: "webdriverio",
+      name: "chrome",
+      enabled: true,
+    },
+  };
+}
+if (testRuntime === "firefox") {
+  testConfig = {
+    browser: {
+      provider: "webdriverio",
+      name: "firefox",
+      enabled: true,
+    },
+  };
+}
+
 export default defineConfig({
   build: {
     lib: {
@@ -55,9 +89,5 @@ export default defineConfig({
     },
   },
   plugins: [dts({ rollupTypes: true })],
-  test: {
-    browser: getBrowserConfig(),
-    environment: getEnvironmentConfig(),
-    coverage: getCoverageConfig(),
-  },
+  test: testConfig,
 });
