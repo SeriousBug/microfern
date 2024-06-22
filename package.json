@@ -1,16 +1,16 @@
 {
-  "name": "vite-vanilla-library",
-  "version": "0.0.0",
+  "name": "microfern",
+  "version": "0.1.0",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/vite-vanilla-library.js",
-      "require": "./dist/vite-vanilla-library.cjs"
+      "import": "./dist/microfern.js",
+      "require": "./dist/microfern.cjs"
     }
   },
-  "main": "./dist/vite-vanilla-library.cjs",
-  "module": "./dist/vite-vanilla-library.js",
-  "types": "./dist/vite-vanilla-library.d.ts",
+  "main": "./dist/microfern.cjs",
+  "module": "./dist/microfern.js",
+  "types": "./dist/microfern.d.ts",
   "files": [
     "dist"
   ],
