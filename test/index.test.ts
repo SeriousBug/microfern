@@ -22,6 +22,15 @@ describe("GIVEN a text with a symbol", () => {
       );
     });
 
+    describe("AND the variables are in a map", () => {
+      const variables = new Map([["fruit", "cantaloupe"]]);
+      test("THEN the symbol is replaced with the variable", () => {
+        expect(format(template, variables)).toBe(
+          "I like cantaloupe in my fruit salad."
+        );
+      });
+    });
+
     describe("AND there is no whitespace around the symbol", () => {
       const template = "I like {{fruit}} in my fruit salad.";
       test("THEN the symbol is replaced with the variable", () => {
@@ -61,6 +70,14 @@ describe("GIVEN a text with a symbol", () => {
       });
     });
   });
+
+  describe("WHEN the blcok is empty", () => {
+    const template = "I like {{ }} in my fruit salad.";
+    const variables = { fruit: "cantaloupe" };
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, variables)).toThrow("Invalid template");
+    });
+  });
 });
 
 // Write a test for the case when the template has multiple symbols.
@@ -86,11 +103,31 @@ describe("GIVEN a text with multiple symbols", () => {
       });
     });
 
-    const options = { missingVariableDefault: "any topping" };
-    test("AND `missingVariableDefault` is set, THEN the non-matching symbol is replaced with that string", () => {
-      expect(format(template, variables, options)).toBe(
-        "I like cantaloupe and any topping in my fruit salad."
-      );
+    describe("AND `missingVariableDefault` is set", () => {
+      const options = { missingVariableDefault: "any topping" };
+      test("THEN the non-matching symbol is replaced with that string", () => {
+        expect(format(template, variables, options)).toBe(
+          "I like cantaloupe and any topping in my fruit salad."
+        );
+      });
+
+      describe("AND the missingVariableDefault is set to an empty string", () => {
+        const options = { missingVariableDefault: "" };
+        test("THEN the non-matching symbol is replaced with an empty string", () => {
+          expect(format(template, variables, options)).toBe(
+            "I like cantaloupe and  in my fruit salad."
+          );
+        });
+      });
+
+      describe("AND the missingVariableDefault is set to a number", () => {
+        const options = { missingVariableDefault: 0 };
+        test("THEN the non-matching symbol is replaced with the number", () => {
+          expect(format(template, variables, options)).toBe(
+            "I like cantaloupe and 0 in my fruit salad."
+          );
+        });
+      });
     });
   });
 
@@ -175,6 +212,13 @@ describe("GIVEN a text with an escaped symbol", () => {
   const variables = { fruits: "cantaloupe" };
   test("THEN the symbol is not replaced", () => {
     expect(format(template, variables)).toBe("I like {{ fruits.");
+  });
+
+  describe("AND the escape character is inside a block", () => {
+    const template = "I like {{ \\{ fruits }}.";
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, variables)).toThrow("Invalid template");
+    });
   });
 });
 
