@@ -42,7 +42,7 @@ function getCoverageConfig() {
     } as const;
   }
 
-  return undefined;
+  return {};
 }
 
 export default defineConfig({
