@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        runtime: [node, chrome, firefox, edge]
+        runtime: [chrome, firefox, edge]
     name: test ${{ matrix.runtime }}
     steps:
       - uses: actions/checkout@v4
@@ -30,8 +30,19 @@ jobs:
       - run: npm run test
         env:
           TEST_RUNTIME: ${{ matrix.runtime }}
+  node:
+    runs-on: ubuntu-latest
+    name: test node
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+      - run: npm install
+      - run: npm run build
+      - run: npm run test -- --coverage
       - name: Upload coverage reports to Codecov
-        if: ${{ matrix.runtime == 'node' }}
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
