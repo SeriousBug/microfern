@@ -10,6 +10,10 @@
     "./parse-variables-used": {
       "import": "./dist/parse-variables-used.js",
       "require": "./dist/parse-variables-used.cjs"
+    },
+    "./plugins/base": {
+      "import": "./dist/plugins/base.js",
+      "require": "./dist/plugins/base.cjs"
     }
   },
   "main": "./dist/microfern.cjs",
