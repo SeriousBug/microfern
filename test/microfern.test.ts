@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { format } from "../src/index";
+import { format } from "../src/microfern";
 
 describe("GIVEN a text with no symbols", () => {
   const template = "Fruit salad is delicious!";
