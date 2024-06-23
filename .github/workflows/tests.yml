@@ -13,7 +13,7 @@ on:
       - main
 
 jobs:
-  main:
+  browsers-and-edge:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -30,6 +30,20 @@ jobs:
       - run: npm run test
         env:
           TEST_RUNTIME: ${{ matrix.runtime }}
+  safari:
+    runs-on: macos-latest
+    name: test safari
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+      - run: npm install
+      - run: npm run build
+      - run: npm run test
+        env:
+          TEST_RUNTIME: safari
   bun:
     runs-on: ubuntu-latest
     name: test bun

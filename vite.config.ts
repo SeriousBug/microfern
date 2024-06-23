@@ -18,25 +18,18 @@ if (testRuntime === "node") {
     },
   };
 }
+// Not edge the browser, serverless edge computing runtime
 if (testRuntime === "edge") {
   testConfig = {
     environment: "edge-runtime",
   };
 }
-if (testRuntime === "chrome") {
+
+if (["chrome", "firefox", "safari"].includes(testRuntime)) {
   testConfig = {
     browser: {
       provider: "webdriverio",
-      name: "chrome",
-      enabled: true,
-    },
-  };
-}
-if (testRuntime === "firefox") {
-  testConfig = {
-    browser: {
-      provider: "webdriverio",
-      name: "firefox",
+      name: testRuntime,
       enabled: true,
     },
   };
