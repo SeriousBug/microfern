@@ -1,4 +1,4 @@
-import { format } from ".";
+import { format } from "./microfern";
 
 /** A mock Map type that collects the keys requested from it. */
 class VariableCollector {

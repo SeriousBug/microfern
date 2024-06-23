@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { format } from "../src/index";
+import { format } from "./microfern";
 
 describe("GIVEN a text with no symbols", () => {
   const template = "Fruit salad is delicious!";
@@ -82,7 +82,7 @@ describe("GIVEN a text with a symbol", () => {
     });
   });
 
-  describe("WHEN the blcok is empty", () => {
+  describe("WHEN the block is empty", () => {
     const template = "I like {{ }} in my fruit salad.";
     const variables = { fruit: "cantaloupe" };
     test("THEN an error is thrown", () => {
@@ -259,6 +259,34 @@ describe("GIVEN a text with unmatched brackets", () => {
     const template = "I like {{ fruit }} in my fruit salad. #} Comment here";
     test("THEN an error is thrown", () => {
       expect(() => format(template, {})).toThrow("Invalid template");
+    });
+  });
+});
+
+describe("GIVEN a template with a plugin", () => {
+  const template = "I like {{ fruit | uppercase }} in my fruit salad.";
+  const variables = { fruit: "cantaloupe" };
+  const plugins = { uppercase: (value: string) => value.toUpperCase() };
+
+  test("THEN the plugin is applied to the variable", () => {
+    expect(format(template, variables, { plugins })).toBe(
+      "I like CANTALOUPE in my fruit salad."
+    );
+  });
+
+  describe("AND the plugins are not defined", () => {
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, variables, {})).toThrow(
+        'Invalid template: unknown plugin "uppercase"'
+      );
+    });
+  });
+
+  describe("AND the plugin is missing", () => {
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, variables, { plugins: {} })).toThrow(
+        'Invalid template: unknown plugin "uppercase"'
+      );
     });
   });
 });
