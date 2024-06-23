@@ -43,7 +43,7 @@ jobs:
       - run: bun test
   node:
     runs-on: ubuntu-latest
-    name: test node v20
+    name: test node v22
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
