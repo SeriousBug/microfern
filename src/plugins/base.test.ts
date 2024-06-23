@@ -1,5 +1,5 @@
 import { format } from "../format";
-import { DEFAULT_PLUGINS } from "./";
+import { DEFAULT_PLUGINS } from "./base";
 import { describe, expect, test } from "vitest";
 
 describe("DEFAULT_PLUGINS", () => {
