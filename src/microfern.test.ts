@@ -274,6 +274,22 @@ describe("GIVEN a template with a plugin", () => {
     );
   });
 
+  describe("WHEN there are multiple plugins", () => {
+    const template =
+      "I like {{ fruit | uppercase | kebabCase }} in my fruit salad.";
+    const plugins = {
+      uppercase: (value: string) => value.toUpperCase(),
+      kebabCase: (value: string) => value.replace(/\s+/g, "-"),
+    };
+    const variables = { fruit: "blood orange" };
+
+    test("THEN the plugins are applied to the variable", () => {
+      expect(format(template, variables, { plugins })).toBe(
+        "I like BLOOD-ORANGE in my fruit salad."
+      );
+    });
+  });
+
   describe("AND the plugins are not defined", () => {
     test("THEN an error is thrown", () => {
       expect(() => format(template, variables, {})).toThrow(
