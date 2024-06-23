@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { format } from "../src/microfern";
+import { format } from "./microfern";
 
 describe("GIVEN a text with no symbols", () => {
   const template = "Fruit salad is delicious!";
@@ -82,7 +82,7 @@ describe("GIVEN a text with a symbol", () => {
     });
   });
 
-  describe("WHEN the blcok is empty", () => {
+  describe("WHEN the block is empty", () => {
     const template = "I like {{ }} in my fruit salad.";
     const variables = { fruit: "cantaloupe" };
     test("THEN an error is thrown", () => {

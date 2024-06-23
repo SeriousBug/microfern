@@ -6,8 +6,6 @@ import packageJson from "./package.json";
 import { InlineConfig } from "vitest";
 import type { InputOption } from "rollup";
 
-const packageName = packageJson.name.split("/").pop() || packageJson.name;
-
 const testRuntime = process.env.TEST_RUNTIME || "node";
 console.log("testRuntime", testRuntime);
 
