@@ -1,8 +1,11 @@
-type ReadonlyMap<K, V> = {
+/** A subset of a ReadonlyMap, a variable provider gives the formatter the
+ * values to substitute in the template.
+ */
+type VariableProvider<K, V> = {
   get(key: K): V | undefined;
 };
 
-function isReadonlyMap<K, V>(map: unknown): map is ReadonlyMap<K, V> {
+function isVariableProvider<K, V>(map: unknown): map is VariableProvider<K, V> {
   return (
     typeof map === "object" &&
     map !== null &&
@@ -10,6 +13,23 @@ function isReadonlyMap<K, V>(map: unknown): map is ReadonlyMap<K, V> {
     typeof map["get"] === "function"
   );
 }
+
+/** A plugin to transform text.
+ *
+ * Plugins are used in template blocks to process text. For example:
+ *
+ * ```
+ * Hello, {{ username | capitalize }}
+ * ```
+ *
+ * This gets the `username` variable, and passes it through the `capitalize`
+ * plugin to process it.
+ *
+ * Plugins are simple functions that accept, potentially modify, and return a
+ * string. You can create your own plugins to give template authors more
+ * options.
+ */
+export type Plugin = (text: string) => string;
 
 export function format(
   /** The template to be formatted. */
@@ -25,14 +45,20 @@ export function format(
    */
   variables:
     | Readonly<Record<string, string | number>>
-    | ReadonlyMap<string, string | number>,
+    | VariableProvider<string, string | number>,
   options?: {
     missingVariableDefault?: string | number;
+    /** A map of plugin names to plugins.
+     *
+     * Plugins are used in template blocks to process text.
+     * Please see {@link Plugin} for more information.
+     */
+    plugins?: { [name: string]: Plugin };
   }
 ): string {
   const output: string[] = [];
 
-  const getValue = isReadonlyMap(variables)
+  const getValue = isVariableProvider(variables)
     ? (name: string) => variables.get(name)
     : (name: string) => variables[name];
 
@@ -81,12 +107,29 @@ export function format(
           throw new Error("Invalid template: {{ }} blocks can not be nested");
         }
         state = "placeholder";
-        const name = part.slice(2).trim();
-        if (name.length === 0) {
+        const block = part.slice(2).trim();
+        if (block.length === 0) {
           throw new Error("Invalid template: encountered empty {{ }} block.");
         }
-        const value = getValue(name) ?? options?.missingVariableDefault;
-        output.push(String(value));
+        const [variableName, ...pluginNames] = block
+          .split("|")
+          .map((s) => s.trim());
+        const plugins = pluginNames.map((pluginName) => {
+          const plugin = options?.plugins?.[pluginName];
+          if (!plugin) {
+            throw new Error(
+              'Invalid template: unknown plugin "' + pluginName + '"'
+            );
+          }
+          return plugin;
+        });
+
+        const value = plugins.reduce(
+          (value, plugin) => plugin(value),
+          String(getValue(variableName) ?? options?.missingVariableDefault)
+        );
+
+        output.push(value);
         return;
       }
       case "}}": {

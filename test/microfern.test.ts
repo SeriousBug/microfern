@@ -262,3 +262,31 @@ describe("GIVEN a text with unmatched brackets", () => {
     });
   });
 });
+
+describe("GIVEN a template with a plugin", () => {
+  const template = "I like {{ fruit | uppercase }} in my fruit salad.";
+  const variables = { fruit: "cantaloupe" };
+  const plugins = { uppercase: (value: string) => value.toUpperCase() };
+
+  test("THEN the plugin is applied to the variable", () => {
+    expect(format(template, variables, { plugins })).toBe(
+      "I like CANTALOUPE in my fruit salad."
+    );
+  });
+
+  describe("AND the plugins are not defined", () => {
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, variables, {})).toThrow(
+        'Invalid template: unknown plugin "uppercase"'
+      );
+    });
+  });
+
+  describe("AND the plugin is missing", () => {
+    test("THEN an error is thrown", () => {
+      expect(() => format(template, variables, { plugins: {} })).toThrow(
+        'Invalid template: unknown plugin "uppercase"'
+      );
+    });
+  });
+});
