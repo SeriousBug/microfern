@@ -6,9 +6,43 @@ import { TemplateRepl } from "../src/components/TemplateRepl";
 
 # Template Language
 
-Regular test in templates are copied over to the output as-is.
+## Plain text
+
+Plain text is copied over to the output as-is.
 
 <TemplateRepl
-  template="Hello {{ x | capitalize }} world!"
-  variables={{ x: "hey" }}
+  template="Hello, world!"
+  variables={{}}
 />
+
+## Variables
+
+Add `{{ variableName }}` to templates. These will be replaced with the value of the variable.
+
+<TemplateRepl
+      template="Hello, {{name}}!"
+      variables={{ name: "Alan Turing" }}
+/>
+
+### Missing variables
+
+If a variable is missing, it will be replaced with the word `undefined`.
+If you'd like it to be replaced with something else, you can set `missingVariableDefault` in the options.
+
+## Comments
+
+If you need to put comments in your blocks, you can do so with the `{# comment #}` syntax.
+
+<TemplateRepl
+  template="Who else is attending {# school name #}{{ place }}?"
+  variables={{ place: "OSU" }}
+/>
+
+## Escaping
+
+If you need to include the characters `{{` or `}}` in your output, you can escape them with a backslash.
+
+<TemplateRepl
+  template="microfern uses \{{ blocks \}} for placeholders."
+  variables={{}}
+  />

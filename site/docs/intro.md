@@ -6,6 +6,8 @@ sidebar_position: 1
 
 ## Install
 
+TODO
+
 <!--
 Install it from npm.
 
@@ -45,5 +47,16 @@ format(
   "{{ name | uppercase | snakeCase }} contains useful functions!",
   { name: "default plugins" },
   { plugins: DEFAULT_PLUGINS }
+);
+```
+
+You can provide the variables in a plain object like the examples above, or a
+`Map`, or your own [custom variable provider](/docs/custom-variable-providers).
+
+```ts
+// You can use a Map object to provide variables.
+format(
+  "You can use a {{ provider }} to provide variables.",
+  new Map([["provider", "Map object"]])
 );
 ```
