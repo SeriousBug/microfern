@@ -1,4 +1,4 @@
-# ![Microfern - Minimal JavaScript & TypeScript templating engine that runs anywhere](/assets/splash.png)
+# ![Microfern - Minimal JavaScript & TypeScript string templating engine that runs anywhere](/site/static/img/splash.png)
 
 [![GitHub License](https://img.shields.io/github/license/seriousbug/microfern)](https://github.com/SeriousBug/microfern/blob/main/LICENSE.txt)
 [![Codecov](https://img.shields.io/codecov/c/github/seriousbug/microfern)](https://app.codecov.io/gh/SeriousBug/microfern)
