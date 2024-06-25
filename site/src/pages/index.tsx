@@ -6,6 +6,7 @@ import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
 
 import styles from "./index.module.css";
+import { TemplateRepl } from "../components/TemplateRepl";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -38,6 +39,17 @@ export default function Home(): JSX.Element {
     >
       <HomepageHeader />
       <main>
+        <div className={styles.container}>
+          <p className={styles.description}>
+            Microfern uses a simple templating language inspired by Nunjucks.
+            Play around with the interactive example below, or click{" "}
+            <a href="/docs/intro">here</a> to get started.
+          </p>
+          <TemplateRepl
+            template="This is an interactive example for {{ project }}! Change the template and variables to see the output update. When you're ready to get started, click {{ button | titleCase }} above."
+            variables={{ project: "microfern", button: "get started" }}
+          />
+        </div>
         <HomepageFeatures />
       </main>
     </Layout>

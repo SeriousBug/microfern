@@ -21,3 +21,16 @@
   align-items: center;
   justify-content: center;
 }
+
+.container {
+  padding: 1rem;
+  max-width: var(--ifm-container-width-xl);
+  margin: 0 auto;
+}
+
+.description {
+  max-width: 640px;
+  text-align: center;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+}

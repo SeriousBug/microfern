@@ -1,0 +1,14 @@
+---
+sidebar_position: 2
+---
+
+import { TemplateRepl } from "../src/components/TemplateRepl";
+
+# Template Language
+
+Regular test in templates are copied over to the output as-is.
+
+<TemplateRepl
+  template="Hello {{ x | capitalize }} world!"
+  variables={{ x: "hey" }}
+/>

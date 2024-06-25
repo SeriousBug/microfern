@@ -61,7 +61,12 @@ const config: Config = {
           type: "docSidebar",
           sidebarId: "tutorialSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "Get Started",
+        },
+        {
+          position: "left",
+          label: "API Reference",
+          href: "/api",
         },
         {
           href: "https://github.com/SeriousBug/microfern",

@@ -2,46 +2,48 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Get Started
 
-Let's discover **Docusaurus in less than 5 minutes**.
+## Install
 
-## Getting Started
+<!--
+Install it from npm.
 
-Get started by **creating a new site**.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+```
+npm install microfern
+```
+-->
 
-### What you'll need
+## Usage
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+Import and call the function `format`.
 
-## Generate a new site
+<!-- If you change these examples, please update the corresponding test in doc.test.ts too! -->
 
-Generate a new Docusaurus site using the **classic template**.
+<!-- simple -->
 
-The classic template will automatically be added to your project after you run the command:
+```ts
+import { format } from "microfern";
 
-```bash
-npm init docusaurus@latest my-website classic
+// microfern templates look like this
+format("{{ project }} templates look like this", { project: "microfern" });
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+There are also a set of default plugins which you can import. Plugins allow you
+to transform values in templates. This import is separate from the format in
+case you don't need or want them, so they don't get included in your bundle.
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+<!-- plugins -->
 
-## Start your site
+```ts
+import { format } from "microfern";
+import { DEFAULT_PLUGINS } from "microfern/plugins/base";
 
-Run the development server:
-
-```bash
-cd my-website
-npm run start
+// DEFAULT_PLUGINS contains useful functions!
+format(
+  "{{ name | uppercase | snakeCase }} contains useful functions!",
+  { name: "default plugins" },
+  { plugins: DEFAULT_PLUGINS }
+);
 ```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
