@@ -6,16 +6,17 @@ sidebar_position: 1
 
 ## Install
 
-TODO
+Install it [from npm](https://www.npmjs.com/package/microfern).
 
-<!--
-Install it from npm.
-
-
-```
+```sh
 npm install microfern
+# or
+yarn add microfern
+# or
+pnpm add microfern
+# or
+bun add microfern
 ```
--->
 
 ## Usage
 

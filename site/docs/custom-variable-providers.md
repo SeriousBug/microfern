@@ -22,9 +22,6 @@ format("This project is built with node {{ .nvmrc }}", new FileProvider());
 ```
 
 You are limited to sync functions. If you need to perform potentially async
-operations to get values, consider using `parseVariablesUsed` to get the
-variable names first and gather values in advance.
-
-<!--
-TODO: link to relevant API docs
--->
+operations to get values, consider using
+[parseVariablesUsed](https://microfern.bgenc.net/api/functions/parse_variables_used.parseVariablesUsed.html#parseVariablesUsed)
+to get the variable names first and gather values in advance.

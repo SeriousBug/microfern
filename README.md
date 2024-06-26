@@ -1,6 +1,6 @@
 # ![Microfern - Minimal JavaScript & TypeScript string templating engine that runs anywhere](/site/static/img/splash.png)
 
-[![NPM Version](https://img.shields.io/npm/v/microfern?color=blue)](https://)
+[![NPM Version](https://img.shields.io/npm/v/microfern?color=blue)](https://www.npmjs.com/package/microfern)
 [![documentation microfern.bgenc.net](https://img.shields.io/badge/Docs-microfern.bgenc.net-blue?logo=docusaurus)](https://microfern.bgenc.net)
 [![GitHub License](https://img.shields.io/github/license/seriousbug/microfern)](https://github.com/SeriousBug/microfern/blob/main/LICENSE.txt)
 [![Codecov](https://img.shields.io/codecov/c/github/seriousbug/microfern)](https://app.codecov.io/gh/SeriousBug/microfern)
