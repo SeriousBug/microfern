@@ -27,7 +27,11 @@
     "build": "tsc && vite build",
     "lint": "eslint . --fix",
     "test": "vitest --run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "site": "cd site && npm run",
+    "site:dev": "cd site && npm run start -- --host 0.0.0.0",
+    "site:build": "cd site && npm run build",
+    "site:api": "typedoc"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^3.2.0",
@@ -37,6 +41,7 @@
     "@vitest/coverage-v8": "^1.6.0",
     "camelcase": "^8.0.0",
     "eslint": "^8.56.0",
+    "typedoc": "^0.26.2",
     "typescript": "5.4.2",
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
@@ -45,6 +50,5 @@
   },
   "lint-staged": {
     "*.ts": "pnpm run lint"
-  },
-  "dependencies": {}
+  }
 }

@@ -3,12 +3,20 @@ name: Tests
 on:
   push:
     paths-ignore:
-      - ".md"
+      - "**.md"
+      - ".gitignore"
+      - "typedoc.cjs"
+      - ".editorconfig"
+      - "site/**"
     branches:
       - main
   pull_request:
     paths-ignore:
-      - "*.md"
+      - "**.md"
+      - ".gitignore"
+      - "typedoc.cjs"
+      - ".editorconfig"
+      - "site/**"
     branches:
       - main
 
