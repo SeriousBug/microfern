@@ -36,6 +36,8 @@ jobs:
         run: npm install
       - name: Install docs site deps
         run: cd site && npm install
+      - name: Build project
+        run: npm run build
       - name: Build docs site
         run: npm run site build
       - name: Build API docs
