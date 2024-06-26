@@ -9,7 +9,7 @@ const config: Config = {
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
+  url: "https://microfern.bgenc.net",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
@@ -62,6 +62,11 @@ const config: Config = {
           sidebarId: "tutorialSidebar",
           position: "left",
           label: "Get Started",
+        },
+        {
+          position: "left",
+          label: "API Reference",
+          href: "https://microfern.bgenc.net/api/",
         },
         {
           href: "https://github.com/SeriousBug/microfern",
