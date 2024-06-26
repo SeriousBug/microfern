@@ -19,7 +19,7 @@ const config: Config = {
   organizationName: "seriousbug", // Usually your GitHub org/user name.
   projectName: "microfern", // Usually your repo name.
 
-  onBrokenLinks: "throw",
+  onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internationalization, you can use this field to set
@@ -62,11 +62,6 @@ const config: Config = {
           sidebarId: "tutorialSidebar",
           position: "left",
           label: "Get Started",
-        },
-        {
-          position: "left",
-          label: "API Reference",
-          href: "/api",
         },
         {
           href: "https://github.com/SeriousBug/microfern",
