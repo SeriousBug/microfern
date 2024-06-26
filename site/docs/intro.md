@@ -6,6 +6,8 @@ sidebar_position: 1
 
 ## Install
 
+### npm
+
 Install it [from npm](https://www.npmjs.com/package/microfern).
 
 ```sh
@@ -16,6 +18,15 @@ yarn add microfern
 pnpm add microfern
 # or
 bun add microfern
+```
+
+### CDN
+
+You can import the package through a CDN if you prefer. This is [supported in most browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#javascript.statements.import),
+but not in Node.js (as of Node 22, it's behind the `--experimental-network-imports` flag).
+
+```js
+import { format } from "https://unpkg.com/microfern@0.1.1/dist/microfern.js";
 ```
 
 ## Usage
