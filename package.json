@@ -1,6 +1,8 @@
 {
   "name": "microfern",
-  "version": "0.1.0",
+  "description": "Minimal JavaScript & TypeScript string templating engine that runs anywhere",
+  "license": "MIT",
+  "version": "0.1.1",
   "type": "module",
   "repository": {
     "type": "git",
