@@ -22,9 +22,9 @@ jobs:
 
       - run: npm install
 
-      - name: npm run test
+      - run: npm run test
 
-      - name: npm run build
+      - run: npm run build
 
       - name: Publish to NPM
         if: ${{ github.ref == 'refs/heads/main' }}
