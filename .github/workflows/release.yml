@@ -1,0 +1,46 @@
+name: release
+
+on: workflow_dispatch
+
+jobs:
+  publish:
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://registry.npmjs.org
+          always-auth: true
+
+      - run: npm install
+
+      - name: npm run test
+
+      - name: npm run build
+
+      - name: Publish to NPM
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: yarn publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: 'https://npm.pkg.github.com'
+      
+      - name: Publish to Github Packages
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
