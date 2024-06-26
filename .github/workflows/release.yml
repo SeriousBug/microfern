@@ -31,16 +31,3 @@ jobs:
         run: yarn publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22
-          cache: npm
-          registry-url: 'https://npm.pkg.github.com'
-      
-      - name: Publish to Github Packages
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
