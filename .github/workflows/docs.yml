@@ -2,8 +2,6 @@ name: Deploy docs site
 
 on:
   push:
-    paths:
-      - site/**
     branches:
       - main
 
@@ -42,7 +40,10 @@ jobs:
         run: npm run site build
       - name: Build API docs
         run: npm run site:api
-      
+      - name: Fix splash image for API docs page
+        run: |
+          mkdir -p site/build/site/static/img
+          cp site/static/img/splash.png site/build/site/static/img/
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
