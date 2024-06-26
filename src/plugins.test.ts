@@ -1,5 +1,5 @@
-import { format } from "../format";
-import { DEFAULT_PLUGINS } from "./base";
+import { format } from "./format";
+import { DEFAULT_PLUGINS } from "./plugins";
 import { describe, expect, test } from "vitest";
 
 describe("DEFAULT_PLUGINS", () => {

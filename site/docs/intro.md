@@ -60,7 +60,7 @@ case you don't need or want them, so they don't get included in your bundle.
 
 ```ts
 import { format } from "microfern";
-import { DEFAULT_PLUGINS } from "microfern/plugins/base";
+import { DEFAULT_PLUGINS } from "microfern/plugins";
 
 // DEFAULT_PLUGINS contains useful functions!
 format(

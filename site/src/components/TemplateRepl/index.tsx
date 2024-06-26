@@ -1,10 +1,10 @@
 import { format } from "microfern";
-import { DEFAULT_PLUGINS } from "microfern/plugins/base";
+import { DEFAULT_PLUGINS } from "microfern/plugins";
 import { useMemo, useRef, useState } from "react";
 import classes from "./styles.module.css";
 
 function Editor({ initialValue, onChange }) {
-  const editor = useRef();
+  const editor = useRef<HTMLPreElement>();
 
   return (
     <pre
@@ -12,7 +12,7 @@ function Editor({ initialValue, onChange }) {
       contentEditable
       className={classes.input}
       onInput={() => {
-        onChange(editor.current?.textContent ?? "");
+        onChange(editor.current.textContent);
       }}
     >
       {initialValue}

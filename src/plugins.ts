@@ -1,4 +1,4 @@
-import type { Plugin } from "../format";
+import type { Plugin } from "./format";
 
 export const uppercase: Plugin = (text) => text.toUpperCase();
 export const lowercase: Plugin = (text) => text.toLowerCase();
