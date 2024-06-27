@@ -4,6 +4,15 @@ on: workflow_dispatch
 
 jobs:
   publish:
+    inputs:
+      packageToPublish:
+        description: 'Package to publish'
+        required: true
+        default: '.'
+        type: choice
+        options:
+          - .
+          - ./packages/date
     permissions:
       contents: read
       packages: write
@@ -20,14 +29,14 @@ jobs:
           registry-url: https://registry.npmjs.org
           always-auth: true
 
-      - run: npm install
+      - run: cd ${{ github.event.inputs.packageToPublish }} && npm install
 
-      - run: npm run test
+      - run: cd ${{ github.event.inputs.packageToPublish }} && npm run test
 
-      - run: npm run build
+      - run: cd ${{ github.event.inputs.packageToPublish }} && npm run build
 
       - name: Publish to NPM
         if: ${{ github.ref == 'refs/heads/main' }}
-        run: yarn publish --access=public
+        run: cd ${{ github.event.inputs.packageToPublish }} && npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
