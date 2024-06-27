@@ -46,7 +46,6 @@ const entry: InputOption = Object.fromEntries([
         ),
       ] as const
   ),
-  [""] as const,
 ]);
 
 export default defineConfig({
