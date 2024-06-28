@@ -15,6 +15,7 @@ if (testRuntime === "node") {
     environment: "node",
     coverage: {
       provider: "v8",
+      exclude: ["typedoc.cjs", "site"],
     },
   };
 }

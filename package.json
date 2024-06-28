@@ -22,6 +22,7 @@
       "require": "./dist/plugins.cjs"
     }
   },
+  "unpkg": "./dist/microfern.js",
   "main": "./dist/microfern.cjs",
   "module": "./dist/microfern.js",
   "types": "./dist/microfern.d.ts",

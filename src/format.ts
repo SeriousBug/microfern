@@ -19,17 +19,48 @@ function isVariableProvider<K, V>(map: unknown): map is VariableProvider<K, V> {
  * Plugins are used in template blocks to process text. For example:
  *
  * ```
- * Hello, {{ username | capitalize }}
+ * Hello, {{ username | uppercase }}
  * ```
  *
- * This gets the `username` variable, and passes it through the `capitalize`
- * plugin to process it.
+ * This gets the `username` variable, and passes it through the `uppercase`
+ * plugin to process it. That plugin would just look like this:
+ *
+ * ```ts
+ * function uppercase(text: string): string {
+ *   return text.toUpperCase();
+ * }
+ * ```
  *
  * Plugins are simple functions that accept, potentially modify, and return a
  * string. You can create your own plugins to give template authors more
  * options.
  */
 export type Plugin = (text: string) => string;
+/** You can also have plugins that accept options. For example:
+ *
+ * ```
+ * Hello, {{ username | truncate 10 }}
+ * ```
+ *
+ * Similar to the previous example, this plugin gets the `username` variable,
+ * then passes it through the `truncate` plugin. But this time, the plugin will
+ * receive a second parameter with the string "10". The plugin would look like
+ * this:
+ *
+ * ```ts
+ * function truncate(length: string) {
+ *   return (text: string) => text.slice(0, parseInt(length));
+ * }
+ * ```
+ *
+ * These are called higher order plugins. Higher order plugins must accept at
+ * least 1 option, but may accept more.
+ */
+export type HigherOrderPlugin = (
+  opt: string,
+  ...restOpts: string[]
+) => (text: string) => string;
+export type AnyPlugin = Plugin | HigherOrderPlugin;
 
 export function format(
   /** The template to be formatted. */
@@ -53,7 +84,7 @@ export function format(
      * Plugins are used in template blocks to process text.
      * Please see {@link Plugin} for more information.
      */
-    plugins?: { [name: string]: Plugin };
+    plugins?: { [name: string]: AnyPlugin };
   }
 ): string {
   const output: string[] = [];
@@ -111,23 +142,45 @@ export function format(
         if (block.length === 0) {
           throw new Error("Invalid template: encountered empty {{ }} block.");
         }
-        const [variableName, ...pluginNames] = block
+        const [variableName, ...pluginNamesOpts] = block
           .split("|")
           .map((s) => s.trim());
-        const plugins = pluginNames.map((pluginName) => {
+        const plugins = pluginNamesOpts.map((pluginNameOpts) => {
+          const [pluginName, ...pluginOpts] = pluginNameOpts.split(/\s+/);
           const plugin = options?.plugins?.[pluginName];
           if (!plugin) {
             throw new Error(
               'Invalid template: unknown plugin "' + pluginName + '"'
             );
           }
+          if (pluginOpts.length > 0) {
+            // @ts-ignore TypeScript doesn't like the mixed types here, but what
+            // we're doing is safe. A function that accepts a single string will
+            // also accept an array of string (and ignore the rest of the
+            // arguments). We'll then see that what was returned was not a
+            // function and throw an error.
+            const derivedPlugin = plugin(...pluginOpts);
+            if (typeof derivedPlugin !== "function") {
+              throw new Error(
+                'Invalid template: plugin "' +
+                  pluginName +
+                  '" does not accept options'
+              );
+            }
+            return derivedPlugin;
+          }
           return plugin;
         });
 
-        const value = plugins.reduce(
-          (value, plugin) => plugin(value),
-          String(getValue(variableName) ?? options?.missingVariableDefault)
-        );
+        const value = plugins.reduce((value, plugin) => {
+          const result = plugin(value);
+          if (typeof result === "function") {
+            throw new Error(
+              `Invalid template: plugin "${plugin.name}" requires options, but none were given.`
+            );
+          }
+          return result;
+        }, String(getValue(variableName) ?? options?.missingVariableDefault));
 
         output.push(value);
         return;

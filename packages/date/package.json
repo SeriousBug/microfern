@@ -12,6 +12,7 @@
     "vitest": "^1.6.0",
     "webdriverio": "^8.39.0"
   },
+  "unpkg": "./dist/date.js",
   "main": "./dist/date.cjs",
   "module": "./dist/date.js",
   "types": "./dist/date.d.ts",
