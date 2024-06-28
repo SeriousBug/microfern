@@ -1,3 +1,7 @@
 ignore:
   - "site/"
   - "typedoc.cjs"
+coverage:
+  range: 100..100
+  round: up
+  precision: 2
