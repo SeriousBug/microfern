@@ -216,6 +216,15 @@ describe("GIVEN a text with one or more comment blocks", () => {
       expect(() => format(template, variables)).toThrow("Invalid template");
     });
   });
+
+  describe("WHEN there is symbol syntax within the comment block", () => {
+    const template = "I like {# {{fruit}} #} in my fruit salad.";
+    const variables = { fruit: "cantaloupe" };
+
+    test("THEN the comment block is removed, no error is thrown", () => {
+      expect(format(template, variables)).toBe("I like  in my fruit salad.");
+    });
+  });
 });
 
 describe("GIVEN a text with an escaped symbol", () => {
@@ -290,7 +299,7 @@ describe("GIVEN a template with a plugin", () => {
     });
   });
 
-  describe("AND the plugins are not defined", () => {
+  describe("WHEN the plugins are not defined", () => {
     test("THEN an error is thrown", () => {
       expect(() => format(template, variables, {})).toThrow(
         'Invalid template: unknown plugin "uppercase"'
@@ -298,11 +307,49 @@ describe("GIVEN a template with a plugin", () => {
     });
   });
 
-  describe("AND the plugin is missing", () => {
+  describe("WHEN the plugin is missing", () => {
     test("THEN an error is thrown", () => {
       expect(() => format(template, variables, { plugins: {} })).toThrow(
         'Invalid template: unknown plugin "uppercase"'
       );
+    });
+  });
+
+  describe("WHEN the plugin does not accept options", () => {
+    describe("AND an option is provided", () => {
+      test("THEN an error is thrown", () => {
+        const template = "I like {{ fruit | uppercase 2 }} in my fruit salad.";
+        expect(() => format(template, variables, { plugins })).toThrow(
+          'Invalid template: plugin "uppercase"'
+        );
+      });
+    });
+  });
+});
+
+describe("GIVEN a template with a higher order plugin", () => {
+  describe("WHEN the plugin accepts options", () => {
+    const variables = { fruit: "na" };
+    const plugins = {
+      repeat: (times: string) => (value: string) =>
+        value.repeat(Number.parseInt(times)),
+    };
+    describe("AND an option is provided", () => {
+      test("THEN the plugin is applied with the option", () => {
+        const template = "I like ba{{ fruit | repeat 2 }} in my fruit salad.";
+        expect(format(template, variables, { plugins })).toBe(
+          "I like banana in my fruit salad."
+        );
+      });
+    });
+
+    describe("AND the option is missing", () => {
+      test("THEN an error is thrown", () => {
+        const template = "I like ba{{ fruit | repeat }} in my fruit salad.";
+        expect(() => format(template, variables, { plugins })).toThrow(
+          'Invalid template: plugin "repeat"'
+        );
+      });
     });
   });
 });
