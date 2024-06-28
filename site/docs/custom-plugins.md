@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # Custom Plugins
 
 Plugins allow template writers to manipulate variables inside templates.

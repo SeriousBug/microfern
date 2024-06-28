@@ -210,4 +210,36 @@ describe("DEFAULT_PLUGINS", () => {
       ).toBe("The plain text content is Hello World");
     });
   });
+
+  describe("truncate", () => {
+    test("WHEN applied to a string, THEN it truncates the string", () => {
+      expect(
+        format(
+          "The truncated string is {{ text | truncate 10 }}",
+          { text: "hello world" },
+          { plugins: DEFAULT_PLUGINS }
+        )
+      ).toBe("The truncated string is hello worl");
+    });
+
+    test("WHEN the string is shorter than the truncation, THEN it's emitted as-is", () => {
+      expect(
+        format(
+          "The truncated string is {{ text | truncate 20 }}",
+          { text: "hello world" },
+          { plugins: DEFAULT_PLUGINS }
+        )
+      ).toBe("The truncated string is hello world");
+    });
+
+    test("WHEN the option is not a number, THEN it throws an error", () => {
+      expect(() =>
+        format(
+          "The truncated string is {{ text | truncate 'abc' }}",
+          { text: "hello world" },
+          { plugins: DEFAULT_PLUGINS }
+        )
+      ).toThrowError("Invalid template");
+    });
+  });
 });

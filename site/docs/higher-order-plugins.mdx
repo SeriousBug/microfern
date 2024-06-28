@@ -1,0 +1,25 @@
+---
+sidebar_position: 5
+---
+
+import { TemplateRepl } from "../src/components/TemplateRepl";
+
+# Higher Order Plugins
+
+You can also write plugins that accept options, which allows plugins to be more
+flexible. For example:
+
+```ts
+export const truncate: HigherOrderPlugin = (length) => (text) => {
+  return text.slice(0, parseInt(length));
+};
+```
+
+This plugin truncates the input string to the specified length. The options for
+the plugin are passed into the outer function. The outer function returns the
+inner one, which then accepts the input text like a regular plugin.
+
+<TemplateRepl
+      template="Hello, {{ name | truncate 20 }}!"
+      variables={{ name: "Hubert Blaine Wolfe­schlegel­stein­hausen­berger­dorff" }}
+/>

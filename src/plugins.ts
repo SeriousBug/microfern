@@ -1,4 +1,4 @@
-import type { Plugin } from "./format";
+import type { HigherOrderPlugin, Plugin } from "./format";
 
 export const uppercase: Plugin = (text) => text.toUpperCase();
 export const lowercase: Plugin = (text) => text.toLowerCase();
@@ -34,6 +34,15 @@ export const escapeHtml: Plugin = (text) =>
 export const unescapeHtml: Plugin = (text) =>
   text.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 export const stripHtml: Plugin = (text) => text.replace(/<[^>]*>/g, "");
+export const truncate: HigherOrderPlugin = (length) => (text) => {
+  const len = parseInt(length);
+  if (Number.isNaN(len)) {
+    throw new Error(
+      `Invalid template: truncate expected a number, but ${length} given`
+    );
+  }
+  return text.slice(0, len);
+};
 
 export const DEFAULT_PLUGINS = {
   uppercase,
@@ -53,4 +62,5 @@ export const DEFAULT_PLUGINS = {
   escapeHtml,
   unescapeHtml,
   stripHtml,
+  truncate,
 };

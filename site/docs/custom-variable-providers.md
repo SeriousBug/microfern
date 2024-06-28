@@ -1,3 +1,7 @@
+---
+sidebar_position: 4
+---
+
 # Custom Variable Providers
 
 You can use a plain object like `{ "key": "value" }`, or a `new Map()` instance
