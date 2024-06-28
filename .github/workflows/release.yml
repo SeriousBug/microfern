@@ -1,9 +1,7 @@
 name: release
 
-on: workflow_dispatch
-
-jobs:
-  publish:
+on:
+  workflow_dispatch:
     inputs:
       packageToPublish:
         description: 'Package to publish'
@@ -13,6 +11,9 @@ jobs:
         options:
           - .
           - ./packages/date
+
+jobs:
+  publish:
     permissions:
       contents: read
       packages: write
