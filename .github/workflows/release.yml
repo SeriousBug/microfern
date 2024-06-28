@@ -32,7 +32,8 @@ jobs:
 
       - run: cd ${{ github.event.inputs.packageToPublish }} && npm install
 
-      - run: cd ${{ github.event.inputs.packageToPublish }} && npm run test
+      # Don't need to cd for tests because vitest picks up all of them from the root
+      - run: npm run test
 
       - run: cd ${{ github.event.inputs.packageToPublish }} && npm run build
 
