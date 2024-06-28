@@ -1,0 +1,30 @@
+{
+  "name": "@microfern/date",
+  "version": "0.1.0",
+  "description": "Date manipulation plugins for microfern string templating engine.",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "microfern": "^0.1.1",
+    "typescript": "5.4.2",
+    "vite": "^5.3.1",
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^1.6.0",
+    "webdriverio": "^8.39.0"
+  },
+  "main": "./dist/date.cjs",
+  "module": "./dist/date.js",
+  "types": "./dist/date.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/date.js",
+      "require": "./dist/date.cjs"
+    }
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "date-fns": "^3.6.0"
+  }
+}
