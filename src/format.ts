@@ -34,8 +34,9 @@ function isVariableProvider<K, V>(map: unknown): map is VariableProvider<K, V> {
  * Plugins are simple functions that accept, potentially modify, and return a
  * string. You can create your own plugins to give template authors more
  * options.
- *
- * You can also have plugins that accept options. For example:
+ */
+export type Plugin = (text: string) => string;
+/** You can also have plugins that accept options. For example:
  *
  * ```
  * Hello, {{ username | truncate 10 }}
@@ -51,10 +52,15 @@ function isVariableProvider<K, V>(map: unknown): map is VariableProvider<K, V> {
  *   return (text: string) => text.slice(0, parseInt(length));
  * }
  * ```
+ *
+ * These are called higher order plugins. Higher order plugins must accept at
+ * least 1 option, but may accept more.
  */
-export type Plugin =
-  | ((text: string) => string)
-  | ((...opts: string[]) => (text: string) => string);
+export type HigherOrderPlugin = (
+  opt: string,
+  ...restOpts: string[]
+) => (text: string) => string;
+export type AnyPlugin = Plugin | HigherOrderPlugin;
 
 export function format(
   /** The template to be formatted. */
@@ -78,7 +84,7 @@ export function format(
      * Plugins are used in template blocks to process text.
      * Please see {@link Plugin} for more information.
      */
-    plugins?: { [name: string]: Plugin };
+    plugins?: { [name: string]: AnyPlugin };
   }
 ): string {
   const output: string[] = [];
