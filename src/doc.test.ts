@@ -1,4 +1,4 @@
-import { format } from "./format";
+import { format } from "./microfern";
 import { DEFAULT_PLUGINS } from "./plugins";
 import { describe, expect, test } from "vitest";
 
