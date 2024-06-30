@@ -62,6 +62,7 @@ jobs:
           bun-version: latest
       - run: bun install --frozen-lockfile
       - run: bun --bun run build
+      - run: cd packages/date && bun install --frozen-lockfile
       - run: bun test
   node:
     runs-on: ubuntu-latest
