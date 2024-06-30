@@ -1,5 +1,6 @@
 import { format } from "microfern";
 import { DEFAULT_PLUGINS } from "microfern/plugins";
+import { DATE_PLUGINS } from "@microfern/date";
 import { useMemo, useRef, useState } from "react";
 import classes from "./styles.module.css";
 
@@ -23,6 +24,7 @@ function Editor({ initialValue, onChange }) {
 export function TemplateRepl({
   template: initialTemplate,
   variables: initialVariables,
+  monospaceOutput = false,
 }) {
   const [template, setTemplate] = useState(initialTemplate);
   const [variables, setVariables] = useState(initialVariables);
@@ -31,7 +33,10 @@ export function TemplateRepl({
   const output = useMemo(() => {
     try {
       return format(template, variables, {
-        plugins: DEFAULT_PLUGINS,
+        plugins: {
+          ...DEFAULT_PLUGINS,
+          ...DATE_PLUGINS,
+        },
       });
     } catch (err) {
       return err.message;
@@ -59,7 +64,7 @@ export function TemplateRepl({
 
       <div className={classes.column}>
         <div className={classes.label}>Output</div>
-        <div className={classes.output}>
+        <div className={classes.output} data-monospace={monospaceOutput}>
           {errorMessage ? errorMessage : output}
         </div>
         <div className={classes.sub}>

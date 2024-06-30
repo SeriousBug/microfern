@@ -1,0 +1,162 @@
+---
+sidebar_position: 1
+description: Built-in plugins that come with microfern.
+---
+
+import { TemplateRepl } from "../../src/components/TemplateRepl";
+
+# Built-in Plugins
+
+These plugins are built into microfern. You do have to import and pass them into
+`format` explicitly, but they are included in the standard install.
+Check [this example](http://localhost:3000/docs/intro#plugins) to see how to do that.
+
+## List of Plugins
+
+### uppercase
+This plugin converts all characters in the input text to uppercase.
+
+<TemplateRepl
+      template="Chef's secret: {{ fruit | uppercase }} is the key to a good smoothie!"
+      variables={{ fruit: "banana" }}
+/>
+
+### lowercase
+This plugin converts all characters in the input text to lowercase.
+
+<TemplateRepl
+      template="Whisper it: i love {{ veggie | lowercase }} in my salad!"
+      variables={{ veggie: "BROCCOLI" }}
+/>
+
+### capitalize
+This plugin capitalizes the first character of the input text.
+
+<TemplateRepl
+      template="Once upon a thyme, there was an {{ herb | capitalize }}..."
+      variables={{ herb: "italian parsley" }}
+/>
+
+### titleCase
+This plugin converts the input text to title case, capitalizing the first letter of each word.
+
+<TemplateRepl
+      template="Breaking News: {{ headline | titleCase }}"
+      variables={{ headline: "local man finds tomato that looks like elvis" }}
+/>
+
+### snakeCase
+This plugin replaces spaces in the input text with underscores.
+
+<TemplateRepl
+      template="Secret code: {{ message | snakeCase }}"
+      variables={{ message: "the carrots are listening" }}
+/>
+
+### kebabCase
+This plugin replaces spaces in the input text with hyphens.
+
+<TemplateRepl
+      monospaceOutput
+      template={`<a href="/meals/{{ dish | kebabCase }}">Today's special</a>`}
+      variables={{ dish: "Eggplant Extravaganza" }}
+/>
+
+### camelCase
+This plugin converts the input text to camel case, removing spaces and capitalizing the first letter of each word except the first.
+
+<TemplateRepl
+      monospaceOutput
+      template="Variable name: {{ fruitSalad | camelCase }}IsYummy"
+      variables={{ fruitSalad: "tropical fruit bonanza" }}
+/>
+
+### pascalCase
+This plugin converts the input text to pascal case, removing spaces and capitalizing the first letter of each word.
+
+<TemplateRepl
+      monospaceOutput
+      template="Class name: {{ veggieDish | pascalCase }}Recipe"
+      variables={{ veggieDish: "turnip the beet salad" }}
+/>
+
+### trim
+This plugin removes whitespace from both ends of the input text.
+
+<TemplateRepl
+      template="Remember to trim the {{ ingredient | trim }} before cooking!"
+      variables={{ ingredient: "  string beans  " }}
+/>
+
+### trimStart
+This plugin removes whitespace from the beginning of the input text.
+
+<TemplateRepl
+      template="[{{ shape | trimStart }}] shaped rhubarb"
+      variables={{ shape: " fish " }}
+/>
+
+### trimEnd
+This plugin removes whitespace from the end of the input text.
+
+<TemplateRepl
+      template="[{{ shape | trimEnd }}] shaped rhubarb"
+      variables={{ shape: " rhubarb " }}
+/>
+
+### urlEscape
+This plugin URL-encodes the input text.
+
+<TemplateRepl
+      monospaceOutput
+      template={`<a href="/search/?q={{ search | urlEscape }}> Search </a>`}
+      variables={{ search: "how to tuna fish" }}
+/>
+
+### urlUnescape
+This plugin URL-decodes the input text.
+
+<TemplateRepl
+      template="You searched: {{ query | urlUnescape }}"
+      variables={{ query: "Are%20tomatoes%20secretly%20fruit%20spies%3F" }}
+/>
+
+### reverse
+This plugin reverses the characters in the input text.
+
+<TemplateRepl
+      template={`"I say, {{ phrase }}! That didn't work? Then {{ phrase | reverse }}!"`}
+      variables={{ phrase: "open sesame" }}
+/>
+
+### escapeHtml
+This plugin escapes special HTML characters in the input text.
+
+<TemplateRepl
+      template="shop for {{ html | escapeHtml }}"
+      variables={{ html: "my favorite apple variety is the <script>bobby tables apple</script>" }}
+/>
+
+### unescapeHtml
+This plugin unescapes special HTML characters in the input text.
+
+<TemplateRepl
+      template="Joke of the day: {{ html | unescapeHtml }}"
+      variables={{ html: "Can I get some peas &amp; quiet?!" }}
+/>
+
+### stripHtml
+This plugin removes all HTML tags from the input text.
+
+<TemplateRepl
+      template="Foiled again, {{ html | stripHtml }}!"
+      variables={{ html: "<script>baked potato</script>" }}
+/>
+
+### truncate
+This plugin truncates the input text to the specified length. It's a higher-order plugin that takes a length parameter, which is required.
+
+<TemplateRepl
+      template="The Amazing {{ veggie | truncate 21 }}"
+      variables={{ veggie: "Purple Sprouting Broccoli" }}
+/>

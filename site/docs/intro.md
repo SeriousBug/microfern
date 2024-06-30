@@ -26,7 +26,7 @@ You can import the package through a CDN if you prefer. This is [supported in mo
 but not in Node.js (as of Node 22, it's behind the `--experimental-network-imports` flag).
 
 ```js
-import { format } from "https://unpkg.com/microfern@0.1.1/dist/microfern.js";
+import { format } from "https://unpkg.com/microfern@0.2.1/dist/microfern.js";
 ```
 
 ## Usage
@@ -81,3 +81,26 @@ format(
   { plugins: DEFAULT_PLUGINS }
 );
 ```
+
+### Always Using the Same Plugins or Variables
+
+If you have a set of plugins or variables that you'd like to always use,
+you can do so by wrapping the `format` function. For example:
+
+```ts
+import { format as baseFormat } from "microfern";
+import { DEFAULT_PLUGINS } from "microfern/plugins";
+
+const variables = {
+  fruit: "cherry",
+  vegetable: "okra",
+} as const;
+
+export function format(template: string) {
+  return baseFormat(template, variables, { plugins: DEFAULT_PLUGINS });
+}
+```
+
+You'll then be able to import and use your own wrapped function whenever you
+need to format something, and have all the variables and plugins will always be
+available.
