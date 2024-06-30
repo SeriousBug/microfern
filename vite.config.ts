@@ -1,10 +1,15 @@
-/// <reference types="vitest" />
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import packageJson from "./package.json";
 import { InlineConfig } from "vitest";
 import type { InputOption } from "rollup";
+
+declare module "vite" {
+  interface UserConfig {
+    test?: InlineConfig;
+  }
+}
 
 const testRuntime = process.env.TEST_RUNTIME || "node";
 console.log("testRuntime", testRuntime);
