@@ -30,12 +30,18 @@ jobs:
           registry-url: https://registry.npmjs.org
           always-auth: true
 
-      - run: cd ${{ github.event.inputs.packageToPublish }} && npm install
+      # You do always have to install and build the root package
+      - run: npm install
+      - run: npm run build
 
       # Don't need to cd for tests because vitest picks up all of them from the root
       - run: npm run test
 
+      - run: cd ${{ github.event.inputs.packageToPublish }} && npm install
+        if: ${{ github.event.inputs.packageToPublish != '.' }}
+
       - run: cd ${{ github.event.inputs.packageToPublish }} && npm run build
+        if: ${{ github.event.inputs.packageToPublish == '.' }}
 
       - name: Publish to NPM
         if: ${{ github.ref == 'refs/heads/main' }}
