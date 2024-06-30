@@ -1,0 +1,113 @@
+---
+sidebar_position: 2
+description: "Date manipulation plugins: format dates, add days, etc."
+---
+
+import { TemplateRepl } from "../../src/components/TemplateRepl";
+
+
+# Date Plugins
+
+Date plugins allow you to format dates, get unix timestamps, or manipulate dates
+by adding or removing hours, days, weeks, and more.
+
+The date plugins depend on `date-fns`, and you will need to install it
+separately from microfern.
+
+```bash
+npm i @microfern/date
+```
+
+You can then import and use the plugins when calling format.
+
+```ts
+import { format } from "microfern";
+import { DATE_PLUGINS } from "@microfern/date";
+
+// I'll eat another apple on 1719761084
+format(
+  "I'll eat another apple on {{ date | toUnixTimestamp }}",
+  { now: new Date().toString() },
+  { plugins: DATE_PLUGINS }
+  // If you want to use both the date plugins and the built-in plugins, you can merge them like this:
+  // { plugins: { ...DATE_PLUGINS, ...BUILT_IN_PLUGINS } }
+);
+```
+
+## Date Inputs
+
+The date plugins can accept dates formatted in multiple ways:
+- a Unix timestamp (number formatted as a string), e.g. `"1719761084"`
+- an ISO 8601 formatted date-time string, e.g. `"2023-05-31T09:00:00-05:00"`
+- a `Date` object formatted with `.toString()` e.g. `"Sun Jun 30 2024 12:39:20 GMT-0500 (Central Daylight Time)"`
+
+## List of Date Plugins
+
+### toUnixTimestamp
+This plugin converts a date string to a Unix timestamp (seconds since January 1, 1970).
+
+<TemplateRepl
+      template="The avocado will be ripe at timestamp {{ ripeness | toUnixTimestamp }}"
+      variables={{ ripeness: "2023-06-15T14:30:00Z" }}
+/>
+
+### toISODateTime
+This plugin converts a date string to an ISO 8601 formatted date-time string.
+
+<TemplateRepl
+      template="The great cucumber harvest of {{ harvest | toISODateTime }}"
+      variables={{ harvest: "1685541600" }}
+/>
+
+### addTime
+This higher-order plugin adds a specified amount of time to a date. It requires two parameters: the amount and the unit of time.
+
+<TemplateRepl
+      template="Your artichoke hearts will be ready in {{ cookTime | addTime 30 minutes }}"
+      variables={{ cookTime: "2023-06-15T12:00:00Z" }}
+/>
+
+### subtractTime
+This higher-order plugin subtracts a specified amount of time from a date. It requires two parameters: the amount and the unit of time.
+
+<TemplateRepl
+      template="The last thyme I saw you was {{ lastMeeting | subtractTime 2 days }}"
+      variables={{ lastMeeting: "2023-06-15T09:00:00Z" }}
+/>
+
+### formatDateTime
+This higher-order plugin formats a date according to the specified format string. It can take multiple format tokens as separate arguments.
+
+<TemplateRepl
+      template="The Annual Turnip Toss will be held on {{ event | formatDateTime MMMM do 'at' h:mm a }}"
+      variables={{ event: "2023-07-01T14:30:00Z" }}
+/>
+
+## Time Units
+
+When using `addTime` and `subtractTime`, you can specify the following time units:
+
+- years
+- months
+- weeks
+- days
+- hours
+- minutes
+- seconds
+
+## Format Tokens
+
+The `formatDateTime` plugin uses format tokens from the `date-fns` library. Here are some common tokens:
+
+- `yyyy`: 4-digit year
+- `MM`: 2-digit month
+- `dd`: 2-digit day of the month
+- `HH`: 2-digit hour (24-hour clock)
+- `mm`: 2-digit minute
+- `ss`: 2-digit second
+- `MMMM`: Full month name
+- `do`: Day of the month with ordinal
+- `h`: Hour (12-hour clock)
+- `a`: AM/PM indicator
+
+For a full list of format tokens, refer to the [date-fns format documentation](https://date-fns.org/v3.6.0/docs/format).

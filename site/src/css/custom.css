@@ -25,7 +25,9 @@ a {
 }
 a.button,
 a.navbar__link,
-a.menu__link {
+a.menu__link,
+a.card,
+a.pagination-nav__link {
   transition-property: all;
   text-decoration: none;
 }

@@ -39,6 +39,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/seriousbug/microfern/tree/main/site/",
+          sidebarCollapsible: false,
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -61,7 +62,7 @@ const config: Config = {
           type: "docSidebar",
           sidebarId: "tutorialSidebar",
           position: "left",
-          label: "Get Started",
+          label: "Docs",
         },
         {
           position: "left",

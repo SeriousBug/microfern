@@ -1,5 +1,11 @@
 import type { Plugin, HigherOrderPlugin } from "microfern";
-import * as date from "date-fns";
+import { fromUnixTime } from "date-fns/fromUnixTime";
+import { parseISO } from "date-fns/parseISO";
+import { getUnixTime } from "date-fns/getUnixTime";
+import { formatISO } from "date-fns/formatISO";
+import { add } from "date-fns/add";
+import { format } from "date-fns/format";
+import type { Duration } from "date-fns";
 
 function parseInt(input: string): number {
   const parsed = Number.parseInt(input, 10);
@@ -9,7 +15,7 @@ function parseInt(input: string): number {
   return parsed;
 }
 
-type DateUnit = keyof date.Duration;
+type DateUnit = keyof Duration;
 const dateUnits: ReadonlySet<string> = new Set<string>([
   "years",
   "months",
@@ -33,22 +39,30 @@ function parseDateUnit(input: string): DateUnit {
 
 function parseDateInput(rawInput: string): Date {
   if (/^\d+$/.test(rawInput)) {
-    return date.fromUnixTime(parseInt(rawInput));
+    return fromUnixTime(parseInt(rawInput));
   }
-  const input = date.parseISO(rawInput);
-  if (input.toString() === "Invalid Date") {
-    throw new Error(`Invalid date: ${rawInput}`);
+
+  let input = parseISO(rawInput);
+  if (!isNaN(input.getTime())) {
+    return input;
   }
-  return input;
+
+  input = new Date(rawInput);
+  if (!isNaN(input.getTime())) {
+    return input;
+  }
+
+  throw new Error(`Invalid date: ${rawInput}`);
 }
 
 export const toUnixTimestamp: Plugin = (rawInput: string) => {
   const input = parseDateInput(rawInput);
-  return date.getUnixTime(input).toString();
+  return getUnixTime(input).toString();
 };
+
 export const toISODateTime: Plugin = (rawInput: string) => {
   const input = parseDateInput(rawInput);
-  return date.formatISO(input);
+  return formatISO(input);
 };
 
 export const addTime: HigherOrderPlugin = (
@@ -59,7 +73,7 @@ export const addTime: HigherOrderPlugin = (
     const amount = parseInt(rawAmount);
     const input = parseDateInput(rawInput);
     const unit = parseDateUnit(rawUnit);
-    return date.formatISO(date.add(input, { [unit]: amount }));
+    return formatISO(add(input, { [unit]: amount }));
   };
 };
 
@@ -72,10 +86,10 @@ export const subtractTime: HigherOrderPlugin = (
 };
 
 export const formatDateTime: HigherOrderPlugin =
-  (...format: string[]) =>
+  (...formatString: string[]) =>
   (rawInput: string) => {
     const input = parseDateInput(rawInput);
-    return date.format(input, format.join(" "));
+    return format(input, formatString.join(" "));
   };
 
 export const DATE_PLUGINS = {

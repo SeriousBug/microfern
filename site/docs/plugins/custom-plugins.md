@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+description: Create your own plugins that manipulate variables to use in templates.
 ---
 
 # Custom Plugins
