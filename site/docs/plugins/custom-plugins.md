@@ -5,11 +5,7 @@ description: Create your own plugins that manipulate variables to use in templat
 
 # Custom Plugins
 
-Plugins allow template writers to manipulate variables inside templates.
-Microfern ships with a set of [default templates](/docs/intro#plugins) which you can opt into
-by importing and using `DEFAULT_TEMPLATES`.
-
-You are not limited by the default plugins though! You can add new plugins by
+You are not limited by the plugins microfern ships with! You can add new plugins by
 passing new functions to the plugins parameter. Plugins are just functions that
 accept a string parameter, and return a string result.
 
@@ -30,6 +26,26 @@ format(
   "Some of my favorite fruits are:\n{{ fruits | myPlugin }}",
   { fruits: "apple banana orange" },
   { plugins: { myPlugin } }
+);
+
+// Your plugins can also accept options!
+function pluginWithOptions(repeat: string, separator: string) {
+  // These higher order plugins take the options, then return
+  // a regular plugin function. The wrapped function can access
+  // the parameters from the top level.
+  return (input: string) => {
+    // All the options have to be strings. You can then parse
+    // them into whatever type you need, like this example does
+    // with `repeat`.
+    return new Array(Number.parseInt(repeat)).fill(input).join(separator);
+  };
+}
+
+// ba-na-na-na
+format(
+  "ba-{{ val | pluginWithOptions 3 - }}",
+  { val: "na" },
+  { plugins: { pluginWithOptions } }
 );
 ```
 
