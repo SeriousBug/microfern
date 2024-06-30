@@ -1,13 +1,13 @@
 {
   "name": "@microfern/date",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Date manipulation plugins for microfern string templating engine.",
   "license": "MIT",
   "type": "module",
   "devDependencies": {
-    "microfern": "^0.1.1",
-    "typescript": "5.4.2",
-    "vite": "^5.3.1",
+    "microfern": "file:../..",
+    "typescript": "5.4.5",
+    "vite": "^5.3.2",
     "vite-plugin-dts": "^3.9.1",
     "vitest": "^1.6.0",
     "webdriverio": "^8.39.0"

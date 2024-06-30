@@ -1,4 +1,4 @@
-import type { HigherOrderPlugin, Plugin } from "./format";
+import type { HigherOrderPlugin, Plugin } from "./microfern";
 
 export const uppercase: Plugin = (text) => text.toUpperCase();
 export const lowercase: Plugin = (text) => text.toLowerCase();
