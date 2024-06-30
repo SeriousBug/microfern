@@ -120,6 +120,16 @@ describe("DATE_PLUGINS", () => {
         )
       ).toThrow("Invalid date unit: decades");
     });
+
+    test("WHEN using an invalid time amount, THEN it should throw an error", () => {
+      expect(() =>
+        format(
+          "{{ date | addTime x days }}",
+          { date: "2023-03-25T12:00:00Z" },
+          { plugins: DATE_PLUGINS }
+        )
+      ).toThrow("Invalid");
+    });
   });
 
   describe("subtractTime", () => {
