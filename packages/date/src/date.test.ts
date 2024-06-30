@@ -196,4 +196,70 @@ describe("DATE_PLUGINS", () => {
       ).toBe(originalDate);
     });
   });
+
+  describe("formatDateTime", () => {
+    const testDate = "2023-03-25T12:30:45Z";
+
+    test("WHEN applied with a single format string, THEN it formats the date accordingly", () => {
+      expect(
+        format(
+          "The formatted date is {{ date | formatDateTime yyyy-MM-dd }}",
+          { date: testDate },
+          { plugins: DATE_PLUGINS }
+        )
+      ).toBe("The formatted date is 2023-03-25");
+    });
+
+    test("WHEN applied with multiple format strings, THEN it combines them", () => {
+      expect(
+        format(
+          "The formatted date and time is {{ date | formatDateTime yyyy-MM-dd HH:mm:ss }}",
+          { date: testDate },
+          { plugins: DATE_PLUGINS }
+        )
+      ).toBe("The formatted date and time is 2023-03-25 12:30:45");
+    });
+
+    test("WHEN applied with a custom format, THEN it formats the date accordingly", () => {
+      expect(
+        format(
+          "The custom formatted date is {{ date | formatDateTime do 'of' MMMM, yyyy }}",
+          { date: testDate },
+          { plugins: DATE_PLUGINS }
+        )
+      ).toBe("The custom formatted date is 25th of March, 2023");
+    });
+
+    test("WHEN applied to an invalid date string, THEN it should throw an error", () => {
+      expect(() =>
+        format(
+          "{{ date | formatDateTime yyyy-MM-dd }}",
+          { date: "invalid-date" },
+          { plugins: DATE_PLUGINS }
+        )
+      ).toThrow("Invalid date: invalid-date");
+    });
+
+    test("WHEN applied without format arguments, THEN it should throw an error", () => {
+      expect(() =>
+        format(
+          "{{ date | formatDateTime }}",
+          { date: testDate },
+          { plugins: DATE_PLUGINS }
+        )
+      ).toThrow(
+        'Invalid template: plugin "formatDateTime" requires options, but none were given.'
+      );
+    });
+
+    test("WHEN used in combination with other date plugins, THEN it should work correctly", () => {
+      expect(
+        format(
+          "The formatted timestamp is {{ date | toUnixTimestamp | toISODateTime | formatDateTime yyyy-MM-dd HH:mm:ss }}",
+          { date: testDate },
+          { plugins: DATE_PLUGINS }
+        )
+      ).toBe("The formatted timestamp is 2023-03-25 12:30:45");
+    });
+  });
 });

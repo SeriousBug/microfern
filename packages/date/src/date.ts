@@ -83,4 +83,5 @@ export const DATE_PLUGINS = {
   toISODateTime,
   addTime,
   subtractTime,
+  formatDateTime,
 };
