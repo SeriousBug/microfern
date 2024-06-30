@@ -47,6 +47,29 @@ describe("doc examples", () => {
       ).toBe("Some of my favorite fruits are:\n- apple\n- banana\n- orange\n");
     });
 
+    test("higher-order-plugin", () => {
+      // Your plugins can also accept options!
+      function pluginWithOptions(repeat: string, separator: string) {
+        // These higher order plugins take the options, then return
+        // a regular plugin function. The wrapped function can access
+        // the parameters from the top level.
+        return (input: string) => {
+          // All the options have to be strings. You can then parse
+          // them into whatever type you need, like this example does
+          // with `repeat`.
+          return new Array(Number.parseInt(repeat)).fill(input).join(separator);
+        };
+      }
+
+      expect(
+        format(
+          "ba-{{ val | pluginWithOptions 3 - }}",
+          { val: "na" },
+          { plugins: { pluginWithOptions } }
+        )
+      ).toBe("ba-na-na-na");
+    });
+
     test("new-plugin", () => {
       expect(
         format(
